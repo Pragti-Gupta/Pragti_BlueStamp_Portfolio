@@ -82,7 +82,7 @@ Don't forget to place the link of where to buy each component inside the quotati
 My starter project is a jitterbug. It consists of a vibration motor, 2 leds, battery, on and off switch, and 6 metal wires that serve as legs. This was my first time properly soldering, so it was fun attaching the leds, buzzer, switch, legs, and battery holder onto the circuit board. When you switch the bug on, the motor will start shaking the legs, propelling the bug, and the leds will also turn on. 
 
 
-<img src = "IMG_5811.png" style = "width:30%; height:30%;"> <img src = "circuit.png" style = "width:30%; height:30%;"> <img src = "parts.png" style = "width:30%; height:30%;">
+<img src = "jitterbug.png" style = "width:30%; height:30%;"> <img src = "circuit.png" style = "width:30%; height:30%;"> <img src = "parts.png" style = "width:30%; height:30%;">
 
 # Other Resources/Examples
 One of the best parts about Github is that you can view how other people set up their own work. Here are some past BSE portfolios that are awesome examples. You can view how they set up their portfolio, and you can view their index.md files to understand how they implemented different portfolio components.
