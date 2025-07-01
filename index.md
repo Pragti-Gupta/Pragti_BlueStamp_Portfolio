@@ -81,11 +81,13 @@ Don't forget to place the link of where to buy each component inside the quotati
 <iframe width="560" height="315" src="https://www.youtube.com/embed/-ZHt3RgyCjU?si=4k7KgGRrm4ysOyv0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 My starter project is a jitterbug. It consists of a vibration motor, 2 leds, battery, on and off switch, and 6 metal wires that serve as legs. When you switch the bug on, the motor will start shaking the legs, propelling the bug. 
 
-##### Figure 2: The completed jitterbug
 <img src="jitterbug.png" style="width:20%; height:20%;">
 
-##### Figure 1: The circuit of the jitterbug
+##### Figure 2: The completed jitterbug
+
 <img src="circuit.png" style="width:30%; height:30%;">
+
+##### Figure 1: The circuit of the jitterbug
 
 
 
