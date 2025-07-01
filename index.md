@@ -5,8 +5,7 @@ The smart glasses help you recognize the objects around you in the world. Using 
 |:--:|:--:|:--:|:--:|
 | Pragti G | Monta Vista High School | Electrical Engineering | Incoming Junior
 
-**Replace the BlueStamp logo below with an image of yourself and your completed project. Follow the guide [here](https://tomcam.github.io/least-github-pages/adding-images-github-pages-site.html) if you need help.**
-
+<!--Replace the BlueStamp logo below with an image of yourself and your completed project. Follow the guide [here](https://tomcam.github.io/least-github-pages/adding-images-github-pages-site.html) if you need help. -->
 <img src = "PragtiG.png" style = "width:30%; height:30%;">
   
 <!--# Final Milestone
