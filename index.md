@@ -84,7 +84,7 @@ My starter project is a jitterbug. It consists of a vibration motor, 2 leds, bat
 ## figure 2; The completed jitterbug
 
 <img src = "circuit.png" style = "width:30%; height:30%;"> 
-## figure 1; The circuit of the jitterbug
+# figure 1; The circuit of the jitterbug
 
 
 
