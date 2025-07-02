@@ -49,6 +49,7 @@ My first milestone was to set up my raspberry pi, connect a camera, and take a p
 ##### Figure 3: A picture taken from my pi camera
 <img src="pi_cam_pic.png" style="width:20%; height:20%;">
 
+
 # Schematics 
 Here's where you'll put images of your schematics. [Tinkercad](https://www.tinkercad.com/blog/official-guide-to-tinkercad-circuits) and [Fritzing](https://fritzing.org/learning/) are both great resoruces to create professional schematic diagrams, though BSE recommends Tinkercad becuase it can be done easily and for free in the browser. 
 
