@@ -34,6 +34,98 @@ For your second milestone, explain what you've worked on since your previous mil
 - What needs to be completed before your final milestone
 ## Summary
 ## Steps
+#### Update the Raspberry Pi
+'''bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y python3-pip
+sudo apt install --upgrade -y python3-setuptools
+'''
+Pip is a python package installer for python 3
+
+#### Setup Virtual Environment
+''' bash
+sudo apt install python3.11-venv
+python -m venv env --system-site-packages
+'''
+Ran commands that allow me to create a virtual environment in python - important because it allows me to run codes in an isolated environment
+Creates env
+Not understanding this caused a lot of problems due to global files interfering with files i was trying to install in virtual environments
+'''bash
+source env/bin/activate
+'''
+- activates the environment created
+
+
+#### Upgrade Script
+''' bash
+cd ~
+sudo pip3 install --upgrade adafruit-python-shell
+wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py
+sudo python3 raspi-blinka.py
+'''
+This caused a lot of errors about externally managed environments because I was an environment and i was using sudo which was trying to install it through the whole pi - so getting rid of sudo allowed it to run
+Installs or upgrades the Adafruit Python Shell
+Downloads the raspi-blinka.py
+Necessary to control board
+#### Tensor flow - Install requirements
+''' bash
+sudo apt install -y python3-numpy python3-pillow python3-pygame
+'''
+Downloaded 3 python packages that allow for fast computing(data processing), image processing, and making games with visuals and audio
+''' bash
+sudo apt install -y festival
+'''
+Speech package
+
+#### Install rpi-vision
+''' bash
+cd ~
+source env/bin/activate
+git clone --depth 1 https://github.com/adafruit/rpi-vision.git
+cd rpi-vision
+pip3 install -e .
+'''
+Installing fork of adafruit program for detecting objects
+#### Install TensorFlow 2.x
+'''bash
+RELEASE=https://github.com/PINTO0309/Tensorflow-bin/releases/download/v2.15.0.post1/tensorflow-2.15.0.post1-cp311-none-linux_aarch64.whl
+CPVER=$(python --version | grep -Eo '3\.[0-9]{1,2}' | tr -d '.')
+pip install $(echo "$RELEASE" | sed -e "s/cp[0-9]\{3\}/CP$CPVER/g")
+'''
+Installs tensorflow an open source library for machine learning - gives ability to run ai models to detect the objects 
+
+#### Running the Graphic Labeling Demo
+''' bash
+cd rpi-vision
+python3 tests/pitft_labeled_output.py --tflite
+'''
+Captures camera image and uses tflite(tensorflow lite) to do object detection - supposed to display to PiTFT screen but i use VNC to stream the video onto my computer - this makes my pi heat up to crazy temps so I added heat sinks
+Also whatever is detected is outputted in audio form as well
+
+After getting object detection set up - i realized that it is really really bad(probably due to camera quality or that the model has so many things to detect that it can’t do everything)
+So I decided that I want to focus on detecting books(getting the title and author) then getting information about it and g=outputting in audio form to the user
+
+I started by downloading OCR
+I was only able to detect Hello from my iphone screen properly then i started using opencv to add filters - helping ocr to isolate words and detect them
+Next i needed to separate author and book title so i used NER(named entity recognition which is a part of NLP natural language processing)
+“Named Entity Recognition (NER) in NLP focuses on identifying and categorizing important information known as entities in text.”
+Like people, places, dates, quantities
+
+''' bash
+pip install spacy
+pip install nltk
+python -m spacy download en_core_web_sm
+'''
+
+I had to install spacy which is an open source library for natural language processing, which allows computers to understand human languages. 
+I also installed en_core_web_sm which is the english model for spacy
+
+I also had a lot of problems in this part because i decided to use another environment to download all these packages because there was some problems with numPy and spacy so i created another environment and i forgot to switch interpreters so when running my code I got the same error of en_core_web_sm not being able to be used even though it was installed so I needed to switch interpreters in VScode and enter the right environment
+
+At this point I just wanted to test if my setup worked without my pi cam so i took pictures from google of book covers and ran my code trying to detect the author with a person entity and the book title with heuristics(guessing/good enough)
+I was using filters again but the problem this time is that some book covers aren’t clean enough and the words get blocked out - due to one section being darker and then when comparing the sections it blocks out the words instead of the background so i started just using the inside pages of books with the title and author on a blank page and it was able to separate the author and title for one picture perfectly so now my next steps are to clean up the detection for the author because the person detection isn’t always working and then adjusting filters until I’m able to use the book cover reliably
+
 ## Challenges
 ## Next Steps
 
