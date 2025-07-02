@@ -35,71 +35,71 @@ For your second milestone, explain what you've worked on since your previous mil
 ## Summary
 ## Steps
 #### Update the Raspberry Pi
-'''bash
+```bash
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y python3-pip
 sudo apt install --upgrade -y python3-setuptools
-'''
+```
 Pip is a python package installer for python 3
 
 #### Setup Virtual Environment
-''' bash
+```bash
 sudo apt install python3.11-venv
 python -m venv env --system-site-packages
-'''
+```
 Ran commands that allow me to create a virtual environment in python - important because it allows me to run codes in an isolated environment
 Creates env
 Not understanding this caused a lot of problems due to global files interfering with files i was trying to install in virtual environments
-'''bash
+```bash
 source env/bin/activate
-'''
+```
 - activates the environment created
 
 
 #### Upgrade Script
-''' bash
+```bash
 cd ~
 sudo pip3 install --upgrade adafruit-python-shell
 wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py
 sudo python3 raspi-blinka.py
-'''
+```
 This caused a lot of errors about externally managed environments because I was an environment and i was using sudo which was trying to install it through the whole pi - so getting rid of sudo allowed it to run
 Installs or upgrades the Adafruit Python Shell
 Downloads the raspi-blinka.py
 Necessary to control board
 #### Tensor flow - Install requirements
-''' bash
+```bash
 sudo apt install -y python3-numpy python3-pillow python3-pygame
-'''
+```
 Downloaded 3 python packages that allow for fast computing(data processing), image processing, and making games with visuals and audio
-''' bash
+```bash
 sudo apt install -y festival
-'''
+```
 Speech package
 
 #### Install rpi-vision
-''' bash
+```bash
 cd ~
 source env/bin/activate
 git clone --depth 1 https://github.com/adafruit/rpi-vision.git
 cd rpi-vision
 pip3 install -e .
-'''
+```
 Installing fork of adafruit program for detecting objects
 #### Install TensorFlow 2.x
-'''bash
+```bash
 RELEASE=https://github.com/PINTO0309/Tensorflow-bin/releases/download/v2.15.0.post1/tensorflow-2.15.0.post1-cp311-none-linux_aarch64.whl
 CPVER=$(python --version | grep -Eo '3\.[0-9]{1,2}' | tr -d '.')
 pip install $(echo "$RELEASE" | sed -e "s/cp[0-9]\{3\}/CP$CPVER/g")
-'''
+```
 Installs tensorflow an open source library for machine learning - gives ability to run ai models to detect the objects 
 
 #### Running the Graphic Labeling Demo
-''' bash
+```bash
 cd rpi-vision
 python3 tests/pitft_labeled_output.py --tflite
-'''
+```
 Captures camera image and uses tflite(tensorflow lite) to do object detection - supposed to display to PiTFT screen but i use VNC to stream the video onto my computer - this makes my pi heat up to crazy temps so I added heat sinks
 Also whatever is detected is outputted in audio form as well
 
@@ -112,11 +112,11 @@ Next i needed to separate author and book title so i used NER(named entity recog
 “Named Entity Recognition (NER) in NLP focuses on identifying and categorizing important information known as entities in text.”
 Like people, places, dates, quantities
 
-''' bash
+```bash
 pip install spacy
 pip install nltk
 python -m spacy download en_core_web_sm
-'''
+```
 
 I had to install spacy which is an open source library for natural language processing, which allows computers to understand human languages. 
 I also installed en_core_web_sm which is the english model for spacy
