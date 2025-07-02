@@ -47,7 +47,7 @@ For your first milestone, describe what your project is and how you plan to buil
 ## Summary
 My first milestone was to set up my raspberry pi, connect a camera, and take a picture.
 ##### Figure 3: A picture taken from my pi camera
-<img src="pi_cam_pic.png" style="width:20%; height:20%;">
+<img src="pi_cam_pic.png" style="width:30%; height:30%;">
 
 
 # Schematics 
