@@ -24,7 +24,6 @@ For your final milestone, explain the outcome of your project. Key details to in
 
 # Second Milestone
 
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/QT4CJaUCVO4?si=ClKCGyMrA-sgbFvg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 For your second milestone, explain what you've worked on since your previous milestone. You can highlight:
@@ -33,6 +32,9 @@ What has been surprising about the project so far
 Previous challenges you faced that you overcame
 What needs to be completed before your final milestone
 ## Summary
+For my second milestone, I followed the steps from [Running TensorFlow Lite Object Recognition on the Raspberry Pi 4 or Pi 5](https://learn.adafruit.com/running-tensorflow-lite-on-the-raspberry-pi-4/tensorflow-2-setup) to detect objects using my Pi camera. After setting it up, I figured out that instead of detecting a bunch of objects unreliably, I want to detect text, specifically book titles and authors, to obtain data about that particular book. So, I downloaded OCR(optical character recognition) and spaCy's en_core_web_sm model. This setup allows me to extract text from images and then use NER(Named Entity Recognition) to identify and label titles and authors separately.
+
+
 ## Steps
 #### Update the Raspberry Pi
 ```bash
@@ -131,7 +133,6 @@ I was using filters again but the problem this time is that some book covers are
 
 # First Milestone
 
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/jj_O0dZNq4Q?si=ML43E9GmnBaIR7hE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 For your first milestone, describe what your project is and how you plan to build it. You can include:
@@ -145,7 +146,49 @@ My first milestone was to set up my raspberry pi, connect a camera, and take a p
 <img src="pi_cam_pic.png" style="width:30%; height:30%;">
 
 ## Steps
+<!--The first thing I did was to flash the SD card. I replaced the preloaded 32 bit operating system with a 64 bit, allowing me to download all the libraries I would need for this project. After inserting the SD card into the Pi, I hooked my computer to my raspberry pi with a video capture card, allowing me to use my computer as a moniter, and enabled ssh(secure shell) in OBS. Secure shell allows the raspberry pi to be accessed remotely, while encrypting data through the network. The next step was to setup desktop setup by downloading tigervnc and vscode connecting it to my raspberry pi using ssh, so I can interface with my raspberry pi, run and edit code. -->
+
+The first thing I did was flash the SD card. I replaced the preloaded 32-bit operating system with a 64-bit version, which allowed me to download all the libraries needed for this project. After inserting the SD card into the Raspberry Pi, I connected it to my computer using a video capture card, allowing me to use my computer as a monitor. I then enabled SSH (Secure Shell) in OBS. Secure Shell allows the Raspberry Pi to be accessed remotely while encrypting data transmitted over the network.
+
+Next, I set up the desktop environment by installing TigerVNC and Visual Studio Code, connecting to the Raspberry Pi via SSH. This setup allows me to interface with the Pi and run and edit code directly from my computer. Now I'm able to use my raspberry pi without an external keyboard, mouse, and without the video capture.
+
+Finally, I installed opencv:
+```bash
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install libopencv-dev
+sudo apt-get install python3-opencv
+```
+Making it easier to capture images and manipulate them.
+
+This is the code I used to capture pictures.
+``` python
+from picamera2 import Picamera2, Preview
+import time
+import cv2
+picam2 = Picamera2()
+camera_config = picam2.create_still_configuration(main={"size": (1920, 1080)},
+lores={"size": (640, 480)}, display="lores")
+picam2.configure(camera_config)
+#picam2.start_preview(Preview.QTGL) #Comment this out if not using desktop interface
+picam2.start()
+time.sleep(2)
+im = picam2.capture_array()
+im = cv2.cvtColor(im, cv2.COLOR_BGR2RGB)
+cv2.imwrite('file.png', im)
+```
+
+
 ## Challenges
+Checked wifi connection with pinging the raspberry pi 
+The host name wasn’t working so had to use the ip address
+Basically just checks if the raspberry pi is there
+Now im able to use my raspberry pi without external keyboard, mouse, and without the video capture
+
+ssh wasn't working due to network issues had to depend on Obs which 
+So capture takes html video signals to usb signals so i can use my computer instead of a monitor then obs switches it back to hdmi signals and converts it to video we can see
+
+
 ## Next Steps
 
 # Schematics 
