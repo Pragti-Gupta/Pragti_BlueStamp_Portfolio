@@ -183,7 +183,6 @@ cv2.imwrite('file.png', im)
 Checked wifi connection with pinging the raspberry pi 
 The host name wasn’t working so had to use the ip address
 Basically just checks if the raspberry pi is there
-Now im able to use my raspberry pi without external keyboard, mouse, and without the video capture
 
 ssh wasn't working due to network issues had to depend on Obs which 
 So capture takes html video signals to usb signals so i can use my computer instead of a monitor then obs switches it back to hdmi signals and converts it to video we can see
