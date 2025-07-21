@@ -130,6 +130,7 @@ if recommendations is not None:
     print(recommendations[['book_id', 'title', 'overlap']])
 ```
 Output:
+```text
 Found Book: 'Harry Potter and the Prisoner of Azkaban (Harry Potter, #3)' (ID: 5) — generating recommendations...
 
       book_id                                              title  overlap
@@ -138,7 +139,7 @@ Found Book: 'Harry Potter and the Prisoner of Azkaban (Harry Potter, #3)' (ID: 5
 0           1  Harry Potter and the Half-Blood Prince (Harry ...       94
 4           6  Harry Potter and the Goblet of Fire (Harry Pot...       93
 3890   136251  Harry Potter and the Deathly Hallows (Harry Po...       92
-
+```
 
 ## Challenges
 
