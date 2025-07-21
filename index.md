@@ -141,6 +141,9 @@ Found Book: 'Harry Potter and the Prisoner of Azkaban (Harry Potter, #3)' (ID: 5
 The next thing I did after implementing the recommendation feature, was improve UI(user interface).
 I used a config.toml to change the color, theme, and change the font, used a css file to change the color and text of the buttons, and used markdown to change the background the text size.
 
+Then I deployed my website on streamlit cloud, which allows me to deploy my website directly from my [github repo](https://github.com/Awsum123/BookProject).
+
+
 ## Challenges
 
 ## Next Steps
