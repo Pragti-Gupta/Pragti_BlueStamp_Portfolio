@@ -20,6 +20,39 @@ For your final milestone, explain the outcome of your project. Key details to in
 - A summary of key topics you learned about
 - What you hope to learn in the future after everything you've learned at BSE
 
+## Summary
+I created a website with streamlit to take a picture of a book with your device camera, detect the text using a gemini api, provide details with a google books api, and get reccomendations from my own algorithm.
+
+## Steps
+I had gotten a new camera with better quality, hoping it would improve OCR—and it probably would—but when I put the filters, it would detect every small texture as a word or character, messing up the detection. So, I decided to find another service to do OCR, just as a fallback, so something is working if I don't figure out the filters fast enough.
+
+I found an API, ocr.space, which allowed me to upload my picture and it would detect the text and return it, but it wasn't as reliable either. So, I decided to find and use a Gemini API, which worked every time. With this service, it was able to detect the text not solely based on the words, but also the context.
+```bash
+pip install google-genai
+```
+
+Soon, I just gave up on the filters and started working with the gemini api, focusing more on implementing more features.
+
+At this point, I got a Google Books API and had code that took a picture from my Pi camera and uploaded it to Gemini, which extracted the text. Then, it sent the title and author to the Google Books API, which generated the top 5 results that matched the title entered. After that, I asked Gemini to generate 5 recommendations for the book.
+
+For this code the users would have to use the terminal, which isn't very user friendly, so I was advised to make my own website.
+
+In order to build my website, I used Streamlit—an open-source Python framework that allowed me to build the site using Python.
+```bash
+pip install streamlit
+```
+
+Once I had all the buttons set up to take picture and then get all the information you want about the book, I decided to create my own reccomendations algorithm.
+I had looked at this github page for inspiration and guidance: [Book Recommendation System](https://github.com/vb8146649/Book-Recommend-System/tree/main?tab=readme-ov-file)
+
+
+
+## Challenges
+
+## Next Steps
+
+
+
 
 
 # Second Milestone
