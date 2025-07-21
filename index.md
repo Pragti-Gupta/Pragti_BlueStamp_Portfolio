@@ -119,7 +119,7 @@ def recommend_books_by_title_author(title, author, book_tags_df, top_n=5):
 
     return recommend_books(book_id, book_tags_df, top_n=top_n)
 ```
-Example run with ++Harry Potter and the Prisoner of Azkaban++
+Example run with <u>Harry Potter and the Prisoner of Azkaban</u>
 ```python
 book_title = "Harry Potter and the Prisoner of Azkaban"
 book_author = "J.K"
