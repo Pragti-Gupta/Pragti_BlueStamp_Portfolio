@@ -119,7 +119,7 @@ def recommend_books_by_title_author(title, author, book_tags_df, top_n=5):
 
     return recommend_books(book_id, book_tags_df, top_n=top_n)
 ```
-Example run with <u>Harry Potter and the Prisoner of Azkaban</u>
+Example run with <u>Harry Potter and the Prisoner of Azkaban</u> and with part of the author's name to test partial matching
 ```python
 book_title = "Harry Potter and the Prisoner of Azkaban"
 book_author = "J.K"
@@ -129,6 +129,15 @@ recommendations = recommend_books_by_title_author(book_title, book_author, book_
 if recommendations is not None:
     print(recommendations[['book_id', 'title', 'overlap']])
 ```
+Output:
+Found Book: 'Harry Potter and the Prisoner of Azkaban (Harry Potter, #3)' (ID: 5) — generating recommendations...
+
+      book_id                                              title  overlap
+2           3  Harry Potter and the Sorcerer's Stone (Harry P...       96
+1276    15881  Harry Potter and the Chamber of Secrets (Harry...       95
+0           1  Harry Potter and the Half-Blood Prince (Harry ...       94
+4           6  Harry Potter and the Goblet of Fire (Harry Pot...       93
+3890   136251  Harry Potter and the Deathly Hallows (Harry Po...       92
 
 
 ## Challenges
