@@ -10,8 +10,6 @@ The smart glasses help you recognize the objects around you in the world. Using 
   
 # Final Milestone
 
-**Don't forget to replace the text below with the embedding for your milestone video. Go to Youtube, click Share -> Embed, and copy and paste the code to replace what's below.**
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/H6bi_PE4X9o?si=RHki3qWzc1t0U80w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 For your final milestone, explain the outcome of your project. Key details to include are:
@@ -21,7 +19,7 @@ For your final milestone, explain the outcome of your project. Key details to in
 - What you hope to learn in the future after everything you've learned at BSE
 
 ## Summary
-I created a [website](tinyurl.com/bookdetails1) with streamlit to take a picture of a book with your device camera, detect the text using a gemini api, provide details with a google books api, and get reccomendations from my own algorithm.
+I created a [website](https://bookproject-uqgfcfnidbiqma9cucrkcf.streamlit.app/) with streamlit to take a picture of a book with your device camera, detect the text using a gemini api, provide details with a google books api, and get reccomendations from my own algorithm.
 
 ## Steps
 I had gotten a new camera with better quality, hoping it would improve OCR—and it probably would—but when I put the filters, it would detect every small texture as a word or character, messing up the detection. So, I decided to find another service to do OCR, just as a fallback, so something is working if I don't figure out the filters fast enough.
