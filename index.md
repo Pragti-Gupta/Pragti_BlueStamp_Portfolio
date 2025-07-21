@@ -45,6 +45,8 @@ pip install streamlit
 Once I had all the buttons set up to take picture and then get all the information you want about the book, I decided to create my own reccomendations algorithm.
 I had looked at this github page for inspiration and guidance: [Book Recommendation System](https://github.com/vb8146649/Book-Recommend-System/tree/main?tab=readme-ov-file)
 
+I began working in google colab notebook, where I was able to experiment freely and chunk up my code into different relevent sections. [My Notebook](https://colab.research.google.com/drive/1MSKweRVUYagDJmegP_dTD1MUTnL7cfKI?usp=sharing)
+
 
 
 ## Challenges
