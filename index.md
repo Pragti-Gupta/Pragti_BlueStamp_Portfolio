@@ -47,6 +47,88 @@ I had looked at this github page for inspiration and guidance: [Book Recommendat
 
 I began working in google colab notebook, where I was able to experiment freely and chunk up my code into different relevent sections. [My Notebook](https://colab.research.google.com/drive/1MSKweRVUYagDJmegP_dTD1MUTnL7cfKI?usp=sharing)
 
+I originally wanted to use the author and the tags to recommend books, but I narrowed it down to just the tags. I used the Goodreads database: one file with tag IDs and tag names, one with tag IDs and book IDs, and the last one with book IDs, book names, authors, ratings, etc.
+
+The basic idea of my algorithm is that it takes the title and author and tries to find the book in the database. Once it's found, it gets the book ID, then the tags associated with that book. It then compares those tags with the tags of every other book and gives each one a score based on how many tags they have in common. The top 5 highest-scoring books are returned as recommendations.
+
+#### Outline
+importing all the necessary packages
+```python
+import pandas as pd #allows me to create the set with the right columns and rows
+```
+loading all the datasets from GoodReads 10k project
+```python
+tags_url = "https://raw.githubusercontent.com/zygmuntz/goodbooks-10k/master/tags.csv" #tag_id,tag_name
+book_tags_url = "https://raw.githubusercontent.com/zygmuntz/goodbooks-10k/master/book_tags.csv" #goodreads_book_id,tag_id,count
+books_url = "https://raw.githubusercontent.com/zygmuntz/goodbooks-10k/master/books.csv"#titles, authors, publication details, ratings, and cover image URLs
+books = pd.read_csv(books_url)
+tags = pd.read_csv(tags_url)
+book_tags = pd.read_csv(book_tags_url)
+```
+Setting up the dataset with the right columns to help find similar books.
+```python
+book_tags_merged = pd.merge(book_tags, tags, on='tag_id') # Merge book_tags with tags
+book_tags_set = book_tags_merged.groupby('goodreads_book_id')['tag_name'].agg(set).reset_index() #combines book id and the tags asscoiated with it
+
+# Add book titles and authors by merging with books, so I can get author+title and get the id then get the tags
+books_subset = books[['goodreads_book_id', 'title', 'authors']]
+book_tags_set = pd.merge(book_tags_set, books_subset, on='goodreads_book_id')
+
+# Rename and reorder columns
+book_tags_set.rename(columns={'goodreads_book_id': 'book_id', 'tag_name': 'tags'}, inplace=True)
+book_tags_set = book_tags_set[['book_id', 'title', 'authors', 'tags']]
+```
+recommend_books_by_title_author finds the book ID by title and author, then calls recommend_books to get recommendations based on tags.
+```python
+def recommend_books(book_id, book_tags_df, top_n=5):
+    df = book_tags_df.copy()
+
+    target_tags = df.loc[df['book_id'] == book_id, 'tags'].values
+    if len(target_tags) == 0:
+        print("Book ID not found.")
+        return None
+
+    target_tags = target_tags[0]
+
+    def tag_overlap(row):
+        return len(target_tags.intersection(row['tags']))
+
+    df['overlap'] = df.apply(tag_overlap, axis=1)
+    recommendations = df[df['book_id'] != book_id].sort_values(by='overlap', ascending=False).head(top_n)
+
+    return recommendations[['book_id', 'title', 'tags', 'overlap']]
+
+def recommend_books_by_title_author(title, author, book_tags_df, top_n=5):
+    # Normalize title and author for matching
+    title = title.strip().lower()
+    author = author.strip().lower()
+
+    # Find the matching book
+    matched_book = book_tags_df[
+        book_tags_set['title'].str.lower().str.contains(title) &
+      book_tags_set['authors'].str.lower().str.contains(author)
+    ]
+
+    if matched_book.empty:
+        print(f"No book found with title '{title}' and author '{author}'")
+        return None
+
+    book_id = matched_book.iloc[0]['book_id']
+    target_title = matched_book.iloc[0]['title']
+    print(f"\nFound Book: '{target_title}' (ID: {book_id}) — generating recommendations...\n")
+
+    return recommend_books(book_id, book_tags_df, top_n=top_n)
+```
+Example run with ++Harry Potter and the Prisoner of Azkaban++
+```python
+book_title = "Harry Potter and the Prisoner of Azkaban"
+book_author = "J.K"
+
+recommendations = recommend_books_by_title_author(book_title, book_author, book_tags_set, top_n=5)
+
+if recommendations is not None:
+    print(recommendations[['book_id', 'title', 'overlap']])
+```
 
 
 ## Challenges
