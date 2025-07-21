@@ -21,7 +21,7 @@ For your final milestone, explain the outcome of your project. Key details to in
 - What you hope to learn in the future after everything you've learned at BSE
 
 ## Summary
-I created a website with streamlit to take a picture of a book with your device camera, detect the text using a gemini api, provide details with a google books api, and get reccomendations from my own algorithm.
+I created a [website](tinyurl.com/bookdetails1) with streamlit to take a picture of a book with your device camera, detect the text using a gemini api, provide details with a google books api, and get reccomendations from my own algorithm.
 
 ## Steps
 I had gotten a new camera with better quality, hoping it would improve OCR—and it probably would—but when I put the filters, it would detect every small texture as a word or character, messing up the detection. So, I decided to find another service to do OCR, just as a fallback, so something is working if I don't figure out the filters fast enough.
@@ -140,6 +140,8 @@ Found Book: 'Harry Potter and the Prisoner of Azkaban (Harry Potter, #3)' (ID: 5
 4           6  Harry Potter and the Goblet of Fire (Harry Pot...       93
 3890   136251  Harry Potter and the Deathly Hallows (Harry Po...       92
 ```
+The next thing I did after implementing the recommendation feature, was improve UI(user interface).
+I used a config.toml to change the color, theme, and change the font, used a css file to change the color and text of the buttons, and used markdown to change the background the text size.
 
 ## Challenges
 
