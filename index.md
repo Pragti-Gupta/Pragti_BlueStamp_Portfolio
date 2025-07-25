@@ -453,16 +453,16 @@ def get_base64(file_path):
 image_path = "background.png"
 encoded_image = get_base64(image_path)
 
-st.markdown(f"""
-    <style>
-    .stApp {{
-        background-image: url("data:image/jpg;base64,{encoded_image}");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }}
-    </style>
-    """, unsafe_allow_html=True)
+{% raw %}
+<style>
+.stApp {
+    background-image: url("data:image/jpg;base64,iVBORw0KGgoAAAANS..."); /* your base64 data */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+</style>
+{% endraw %}
 
 # --- Load CSS ---
 def local_css(file_name):
