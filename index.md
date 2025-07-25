@@ -240,7 +240,17 @@ After getting object detection set up, I realized that it is really, really bad 
 So I decided that I want to focus on detecting books (getting the title and author), then getting information about it and outputting it in audio form to the user.
 
 I started by downloading OCR.
-I was only able to detect “Hello” from my iPhone screen properly. Then I started using OpenCV to add filters — helping OCR to isolate words and detect them.
+I was only able to detect “Hello” from my iPhone screen properly. 
+##### Figure 6: A picture taken from my pi camera
+<img src="original.png" style="width:30%; height:30%;">
+
+##### Figure 5: The same picture with more filters
+<img src="filtered.png" style="width:30%; height:30%;">
+
+##### Figure 4: The detected words from the filtered picture
+<img src="terminalOcr.png" style="width:30%; height:30%;">
+
+Then I started using OpenCV to add filters — helping OCR to isolate words and detect them.
 Next, I needed to separate author and book title, so I used NER (Named Entity Recognition), which is a part of NLP (Natural Language Processing).
 
 “Named Entity Recognition (NER) in NLP focuses on identifying and categorizing important information known as entities in text.”
@@ -332,7 +342,6 @@ So capture takes html video signals to usb signals so i can use my computer inst
 Here's where you'll put images of your schematics. [Tinkercad](https://www.tinkercad.com/blog/official-guide-to-tinkercad-circuits) and [Fritzing](https://fritzing.org/learning/) are both great resoruces to create professional schematic diagrams, though BSE recommends Tinkercad becuase it can be done easily and for free in the browser. -->
 
 # Code
-Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
 ## Code for Raspberry Pi with Arducam
 ```python
 import google.generativeai as genai
