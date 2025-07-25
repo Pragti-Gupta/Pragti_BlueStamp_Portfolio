@@ -1,6 +1,6 @@
 # Book Detector
 I originally started this project with smart glasses, but during development, I transitioned to creating a website that detects books. The site allows users to take a picture of a book and receive information along with five recommendations. It integrates the Gemini API, Google Books API, and a custom recommendation algorithm to deliver a range of useful features. I plan to add even more functionality in the future.
-
+ 
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
 |:--:|:--:|:--:|:--:|
 | Pragti G | Monta Vista High School | Software Engineering | Incoming Junior
