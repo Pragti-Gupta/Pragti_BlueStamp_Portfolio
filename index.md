@@ -271,7 +271,7 @@ So I took pictures from Google of book covers and ran my code, trying to detect 
 I was using filters again, but the problem this time is that some book covers aren’t clean enough and the words get blocked out — due to one section being darker and then when comparing the sections, it blocks out the words instead of the background.
 So I started just using the inside pages of books with the title and author on a blank page, and it was able to separate the author and title for one picture perfectly.
 ##### Figure 4+5: The inside page of <u>The Great Gatsby</u> and the detected title and author
-<img src="greatgatsby.png" style="width:50%; height:50%;"> <img src="insidebookcoveroutput.png" style="width:50%; height:50%;">
+<img src="greatgatsby.png" style="width:30%; height:30%;"> <img src="insidebookcoveroutput.png" style="width:50%; height:50%;">
 
 So now my next steps are to clean up the detection for the author because the person detection isn’t always working, and then adjust filters until I’m able to use the book cover reliably.
 
