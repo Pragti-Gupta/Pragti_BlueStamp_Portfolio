@@ -347,7 +347,7 @@ void loop() {
 
 | **Part** | **Note** | **Price** | **Link** |
 |:--:|:--:|:--:|:--:|
-| Raspberry Pi | Orginally used to control camera and locally run website | $109.99 | <a href="https://www.amazon.com/CanaKit-Raspberry-Pi-Starter-Kit/dp/B07V2B4W63/ref=sr_1_3?crid=1U2VL7PDY8UZ2&dib=eyJ2IjoiMSJ9.qObSl_jh-ZRJhliCkwUhOPr8NIXbnDGITPdCBNoR4Gggy77uvsQ5-O7U-FAdlCkJ8SLq1NrlL_2tTe5QXNWGSagnkKhLC2zkHoFu7QcWic1EKo1pZAjsfsaZUkJoi4nLYuD7F__BPZtV-6ahzxmNR7wxmT65MfTeIDqjhDgUkAT7u-XR3vBlAoDKVlv0VBjtjY1BYvqCTFEtB1xkdcFyO8UvqKPJcfFW9SJEHvU_2NM.r43O5eQ2tfmus7eWx4w9ufzFhKV_Sm6B5KEf6doTBlE&dib_tag=se&keywords=canakit%2Braspberry%2Bpi%2B4%2Bstarter%2Bkit%2B32gb%2Bevo%2B&qid=1753459025&sprefix=canakit%2Braspberry%2Bpi%2B4%2B32gb%2Caps%2C384&sr=8-3&th=1"> Link </a> |
+~~| Raspberry Pi | Orginally used to control camera and locally run website | $109.99 | <a href="https://www.amazon.com/CanaKit-Raspberry-Pi-Starter-Kit/dp/B07V2B4W63/ref=sr_1_3?crid=1U2VL7PDY8UZ2&dib=eyJ2IjoiMSJ9.qObSl_jh-ZRJhliCkwUhOPr8NIXbnDGITPdCBNoR4Gggy77uvsQ5-O7U-FAdlCkJ8SLq1NrlL_2tTe5QXNWGSagnkKhLC2zkHoFu7QcWic1EKo1pZAjsfsaZUkJoi4nLYuD7F__BPZtV-6ahzxmNR7wxmT65MfTeIDqjhDgUkAT7u-XR3vBlAoDKVlv0VBjtjY1BYvqCTFEtB1xkdcFyO8UvqKPJcfFW9SJEHvU_2NM.r43O5eQ2tfmus7eWx4w9ufzFhKV_Sm6B5KEf6doTBlE&dib_tag=se&keywords=canakit%2Braspberry%2Bpi%2B4%2Bstarter%2Bkit%2B32gb%2Bevo%2B&qid=1753459025&sprefix=canakit%2Braspberry%2Bpi%2B4%2B32gb%2Caps%2C384&sr=8-3&th=1"> Link </a> |~~
 | Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
 | Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
 
