@@ -32,8 +32,13 @@ pip install google-genai
 After a while, I moved on from the filters and started focusing on using the Gemini API so I could work on adding more features.
 
 At this point, I got a Google Books API and had code that took a picture from my Pi camera and uploaded it to Gemini, which extracted the text. Then, it sent the title and author to the Google Books API, which generated the top 5 results that matched the title entered. After that, I asked Gemini to generate 5 recommendations for the book.
+##### Figure 11: The results for <u>Jaws</u> from google books
 <img src="jawsoutput.png" style="width:60%; height:60%;"> 
+
+##### Figure 10: The results for <u>The Great Gatsby</u> from google books
 <img src="gatsbyoutput.png" style="width:60%; height:60%;">
+
+##### Figure 9: The results for <u>A Clockwork Orange</u> from google books
 <img src="clockworkoutput.png" style="width:60%; height:60%;"> 
 
 For this code the users would have to use the terminal, which isn't very user friendly, so I was advised to make my own website.
