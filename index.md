@@ -22,16 +22,17 @@ I originally started this project with smart glasses, but during development, I 
 I created a [website](https://bookproject-uqgfcfnidbiqma9cucrkcf.streamlit.app/) with streamlit to take a picture of a book with your device camera, detect the text using a gemini api, provide details with a google books api, and get reccomendations from my own algorithm.
 
 ## Steps
-I had gotten a new camera with better quality, hoping it would improve OCR—and it probably would—but when I put the filters, it would detect every small texture as a word or character, messing up the detection. So, I decided to find another service to do OCR, just as a fallback, so something is working if I don't figure out the filters fast enough.
+I got a new camera with better quality, hoping it would improve the OCR results, and it probably did. But when I applied the filters, it started detecting every small texture as a word or character, which messed up the detection. So, I decided to find another OCR service as a backup, just to have something working in case I couldn’t fix the filters quickly enough.
 
-I found an API, ocr.space, which allowed me to upload my picture and it would detect the text and return it, but it wasn't as reliable either. So, I decided to find and use a Gemini API, which worked every time. With this service, it was able to detect the text not solely based on the words, but also the context.
+I found an API called ocr.space that lets you upload pictures and returns the detected text. However, it wasn’t very reliable either. After that, I discovered a Gemini API, which worked every time. This service was able to detect text not just based on the words themselves but also by understanding the context.
 ```bash
 pip install google-genai
 ```
 
-Soon, I just gave up on the filters and started working with the gemini api, focusing more on implementing more features.
+After a while, I moved on from the filters and started focusing on using the Gemini API so I could work on adding more features.
 
 At this point, I got a Google Books API and had code that took a picture from my Pi camera and uploaded it to Gemini, which extracted the text. Then, it sent the title and author to the Google Books API, which generated the top 5 results that matched the title entered. After that, I asked Gemini to generate 5 recommendations for the book.
+
 
 For this code the users would have to use the terminal, which isn't very user friendly, so I was advised to make my own website.
 
