@@ -40,7 +40,7 @@ In order to build my website, I used Streamlit—an open-source Python framework
 pip install streamlit
 ```
 
-Once I had all the buttons set up to take picture and then get all the information you want about the book, I decided to create my own reccomendations algorithm.
+Once I had all the buttons set up to take a picture and retrieve information about the book, I decided to create my own recommendation algorithm.
 I had looked at this github page for inspiration and guidance: [Book Recommendation System](https://github.com/vb8146649/Book-Recommend-System/tree/main?tab=readme-ov-file)
 
 I began working in google colab notebook, where I was able to experiment freely and chunk up my code into different relevent sections. [My Notebook](https://colab.research.google.com/drive/1MSKweRVUYagDJmegP_dTD1MUTnL7cfKI?usp=sharing)
@@ -343,15 +343,13 @@ void loop() {
 }
 ```-->
 
-<!--# Bill of Materials
-Here's where you'll list the parts in your project. To add more rows, just copy and paste the example rows below.
-Don't forget to place the link of where to buy each component inside the quotation marks in the corresponding row after href =. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize this to your project needs. 
+# Bill of Materials
 
 | **Part** | **Note** | **Price** | **Link** |
 |:--:|:--:|:--:|:--:|
+| Raspberry Pi | Orginally used to control camera and locally run website | $109.99 | <a href="[https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/](https://www.amazon.com/CanaKit-Raspberry-Pi-Starter-Kit/dp/B07V2B4W63/ref=sr_1_3?crid=1U2VL7PDY8UZ2&dib=eyJ2IjoiMSJ9.qObSl_jh-ZRJhliCkwUhOPr8NIXbnDGITPdCBNoR4Gggy77uvsQ5-O7U-FAdlCkJ8SLq1NrlL_2tTe5QXNWGSagnkKhLC2zkHoFu7QcWic1EKo1pZAjsfsaZUkJoi4nLYuD7F__BPZtV-6ahzxmNR7wxmT65MfTeIDqjhDgUkAT7u-XR3vBlAoDKVlv0VBjtjY1BYvqCTFEtB1xkdcFyO8UvqKPJcfFW9SJEHvU_2NM.r43O5eQ2tfmus7eWx4w9ufzFhKV_Sm6B5KEf6doTBlE&dib_tag=se&keywords=canakit%2Braspberry%2Bpi%2B4%2Bstarter%2Bkit%2B32gb%2Bevo%2B&qid=1753459025&sprefix=canakit%2Braspberry%2Bpi%2B4%2B32gb%2Caps%2C384&sr=8-3&th=1)"> Link </a> |
 | Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
 | Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
-| Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |-->
 
 # Starter Project: Jitterbug 
 
