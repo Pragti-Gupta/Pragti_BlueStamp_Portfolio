@@ -323,25 +323,646 @@ So capture takes html video signals to usb signals so i can use my computer inst
 <!--# Schematics 
 Here's where you'll put images of your schematics. [Tinkercad](https://www.tinkercad.com/blog/official-guide-to-tinkercad-circuits) and [Fritzing](https://fritzing.org/learning/) are both great resoruces to create professional schematic diagrams, though BSE recommends Tinkercad becuase it can be done easily and for free in the browser. -->
 
-<!--# Code
+# Code
 Here's where you'll put your code. The syntax below places it into a block of code. Follow the guide [here]([url](https://www.markdownguide.org/extended-syntax/)) to learn how to customize it to your project needs. 
+## Code for Raspberry Pi with Arducam
+```python
+import google.generativeai as genai
+from PIL import Image
+import requests
+from picamera2 import Picamera2
+import cv2
+import time
 
-```bash
-echo "Hello World"
+picam2 = Picamera2()
+picam2.start()
+
+# Trigger autofocus
+picam2.set_controls({"AfMode": 2})
+time.sleep(2)  # time for autofocusing to work
+
+image_path = "autofocused_image2.jpg"
+picam2.capture_file(image_path)
+picam2.stop()
+
+
+GOOGLE_API_KEY = "YOUR_API_KEY"
+genai.configure(api_key=GOOGLE_API_KEY)
+
+def load_image_as_base64(path):
+    with open(path, "rb") as img_file:
+        return img_file.read()
+
+image_path = "autofocused_image2.jpg"
+image_bytes = load_image_as_base64(image_path)
+
+model = genai.GenerativeModel("gemini-1.5-flash")
+
+response = model.generate_content([
+    "Extract all readable text from this image (OCR):",
+    {"mime_type": "image/png", "data": image_bytes}
+])
+
+def search_google_books(query, max_results=5):
+    url = "https://www.googleapis.com/books/v1/volumes"
+    params = {
+        "q": query,
+        "maxResults": max_results,
+        "key": "YOUR_API_KEY", 
+    }
+
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    if "items" not in data:
+        print("No results found.")
+        return
+
+    for i, item in enumerate(data["items"], 1):
+        volume_info = item.get("volumeInfo", {})
+        title = volume_info.get("title", "N/A")
+        authors = volume_info.get("authors", ["N/A"])
+        publisher = volume_info.get("publisher", "N/A")
+        published_date = volume_info.get("publishedDate", "N/A")
+        rating = volume_info.get("averageRating", "No rating")
+        ratings_count = volume_info.get("ratingsCount", 0)
+        description = volume_info.get("description", "No description.")
+        page_count = volume_info.get("pageCount", "Unknown")
+        
+
+        print(f"\nResult {i}:")
+        print(f"Title: {title}")
+        print(f"Author(s): {', '.join(authors)}")
+        print(f"Publisher: {publisher}")
+        print(f"Published: {published_date}")
+        print(f"Description: {description}")
+        print(f"Rating: {rating} ({ratings_count} ratings)")  
+        print(f"Page Count: {page_count}")  
+
+
+print("Extracted Text:\n", response.text)
+search_google_books(response.text)
+
+
+
+   
+recommendations = model.generate_content([
+    "Get 5 recommendations similar to this book title: "+ response.text
+])
+
+series = model.generate_content([
+    "Tell me if this book title: "+ response.text + "is part of a book series. If so tell me the other books. Don't start off with yes or no"+
+    "can you say the number of books in the series first"
+])
+print(recommendations.text)
+print(series.text)
 ```
 
-```c++
-void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
-  Serial.println("Hello World!");
-}
+## Code for website
 
-void loop() {
-  // put your main code here, to run repeatedly:
+### Setting up website functionalities  
+```python
+import streamlit as st
+import os
+from PIL import Image
+from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.metrics.pairwise import cosine_similarity
+from bookFunctions import (
+    init_genai,
+    extract_title_and_author,
+    search_google_books,
+    parse_title_author,
+    get_recommendations,
+    check_book_series,
+)
+from bookRecs import(
+    recommend_books,
+    recommend_books_by_title_author,
+    prepare_book_tags_set, load_data,
+    recommend_books_cosine
+)
+import pandas as pd
+import base64
 
+# --- Base64 Background Setup ---
+def get_base64(file_path):
+    with open(file_path, "rb") as f:
+        data = f.read()
+    return base64.b64encode(data).decode()
+
+image_path = "background.png"
+encoded_image = get_base64(image_path)
+
+st.markdown(f"""
+    <style>
+    .stApp {{
+        background-image: url("data:image/jpg;base64,{encoded_image}");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }}
+    </style>
+    """, unsafe_allow_html=True)
+
+# --- Load CSS ---
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{{f.read()}}</style>', unsafe_allow_html=True)
+
+local_css("style.css")
+
+# --- Page Config ---
+st.set_page_config(page_title="Book Finder", layout="centered")
+
+# --- Caching Functions ---
+@st.cache_data(show_spinner=True)
+def cached_load_data():
+    return load_data()
+
+@st.cache_data(show_spinner=True)
+def cached_prepare_book_tags_set(books, book_tags, tags):
+    return prepare_book_tags_set(books, book_tags, tags)
+
+@st.cache_resource(show_spinner=True)
+def cached_init_genai():
+    return init_genai(os.getenv('gemini'))
+
+# --- Speech Recognition JS ---
+st.markdown("""
+<script>
+function startDictationOnce() {
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+        recognition.start();
+
+        recognition.onresult = function(e) {
+            const transcript = e.results[0][0].transcript;
+            const inputField = document.getElementById("speech_result");
+            inputField.value = transcript;
+            inputField.dispatchEvent(new Event('input', { bubbles: true }));
+            recognition.stop();
+        };
+
+        recognition.onerror = function(e) {
+            recognition.stop();
+        };
+    }
 }
-```-->
+</script>
+""", unsafe_allow_html=True)
+
+# --- Load Models/Data ---
+books, book_tags, tags = cached_load_data()
+book_tags_set = cached_prepare_book_tags_set(books, book_tags, tags)
+MODEL = cached_init_genai()
+
+# --- UI ---
+st.title("Book Identifier")
+st.markdown('<p style="font-size:25px;">Take a picture of a book to get details, recommendations, and more.</p>', unsafe_allow_html=True)
+
+if 'show_camera' not in st.session_state:
+    st.session_state.show_camera = False
+
+st.markdown("""
+    <style>
+    .stButton button p { font-size: 18px !important; }
+    </style>
+""", unsafe_allow_html=True)
+
+if st.button("Take Picture", type="primary"):
+    for key in ['image_bytes', 'ocr_text', 'title_author', 'books']:
+        st.session_state.pop(key, None)
+    st.session_state.show_camera = True
+    st.session_state.manual_entry = False
+
+if st.button("Enter Title and Author Instead"):
+    for key in ['image_bytes', 'ocr_text', 'title_author', 'books']:
+        st.session_state.pop(key, None)
+    st.session_state.manual_entry = True
+    st.session_state.show_camera = False
+
+if st.session_state.get('manual_entry', False):
+    title = st.text_input("Enter Book Title:")
+    author = st.text_input("Enter Author Name:")
+    if title and author:
+        st.session_state.title_author = (title, author)
+        st.session_state.books = search_google_books(f"intitle:{title} inauthor:{author}", max_results=15)
+
+img_file = None
+if st.session_state.show_camera:
+    img_file = st.camera_input("Take a picture")
+
+if img_file is not None:
+    st.session_state.image_bytes = img_file.getvalue()
+    st.session_state.show_camera = False
+
+if 'image_bytes' in st.session_state:
+    if 'ocr_text' not in st.session_state:
+        st.session_state.ocr_text = extract_title_and_author(MODEL, st.session_state.image_bytes)
+
+    if 'title_author' not in st.session_state:
+        title, author = parse_title_author(st.session_state.ocr_text)
+        st.session_state.title_author = (title, author)
+
+    if 'books' not in st.session_state:
+        title, author = st.session_state.title_author
+        st.session_state.books = search_google_books(f"intitle:{title} inauthor:{author}", max_results=15)
+
+if 'title_author' in st.session_state and 'books' in st.session_state:
+    books = st.session_state.books
+    title, author = st.session_state.title_author
+
+    st.markdown(f"<p style='font-size: 20px;'>Title: {title}</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='font-size: 20px;'>Author: {author}</p>", unsafe_allow_html=True)
+
+    book_titles = [f"{b['title']} by {', '.join(b['authors'])}" for b in books]
+
+    maxSelected = max(books, key=lambda b: b.get('ratings_count', 0))
+    default_index = books.index(maxSelected)
+
+    if "book_select" not in st.session_state or st.session_state.book_select not in book_titles:
+        st.session_state.book_select = book_titles[default_index]
+
+    selected = st.selectbox("Choose a book:", book_titles, key="book_select")
+    selected_book = books[book_titles.index(selected)]
+
+    actions = ["Show Details", "Other Recommendations", "Show other books in series"]
+    action = st.selectbox("Choose an action:", actions)
+
+    if action == "Show Details":
+        st.subheader("Book Details")
+        st.write(f"**Title:** {selected_book['title']}")
+        st.write(f"**Author(s):** {', '.join(selected_book['authors'])}")
+        st.write(f"**Publisher:** {selected_book.get('publisher', 'N/A')}")
+        st.write(f"**Published:** {selected_book.get('published_date', 'N/A')}")
+        st.write(f"**Description:** {selected_book.get('description', 'No description available')}")
+        st.write(f"**Rating:** {selected_book.get('rating', 'N/A')} ({selected_book.get('ratings_count', 0)} ratings)")
+        st.write(f"**Page Count:** {selected_book.get('page_count', 'N/A')}")
+        st.write(f"**List Price:** {selected_book.get('list_price', 'N/A')}")
+        st.write(f"**Retail Price:** {selected_book.get('retail_price', 'N/A')}")
+
+    elif action == "Other Recommendations":
+        recommendations = recommend_books_by_title_author(
+            selected_book['title'],
+            ", ".join(selected_book['authors']),
+            book_tags_set,
+            top_n=5
+        )
+        st.write(f"Generating recommendations based on: **{selected_book['title']}** by **{', '.join(selected_book['authors'])}**")
+        if recommendations is not None and not recommendations.empty:
+            for _, row in recommendations.iterrows():
+                st.write(f"**{row['title']}**")
+        else:
+            st.write("Couldn’t find direct matches. Using AI-based recommendations:")
+            ai_recs = get_recommendations(MODEL, title)
+            if isinstance(ai_recs, list):
+                for rec in ai_recs:
+                    st.write(f"**{rec}**")
+            elif isinstance(ai_recs, str):
+                for rec in ai_recs.strip().split("\n"):
+                    rec = rec.strip("-•* ")
+                    if rec:
+                        st.write(f"**{rec}**")
+            else:
+                st.write("No readable recommendations found.")
+
+    elif action == "Show other books in series":
+        series = check_book_series(MODEL, selected_book['title'])
+        if series:
+            st.write(series)
+        else:
+            st.write("This book is not part of a series.")
+```
+
+### All methods for Gemini and Google books
+```python
+import google.generativeai as genai
+from PIL import Image
+import streamlit as st
+import requests
+import re
+import os
+
+
+# ====== CONFIGURATION ======
+GOOGLE_API_KEY = "ignore the key just use this"
+BOOKS_API_KEY = "ignore the key just use this"
+IMAGE_PATH = "autofocused_image2.jpg"
+
+
+# ====== LOAD IMAGE BYTES ======
+def load_image_as_bytes(path):
+    with open(path, "rb") as img_file:
+        return img_file.read()
+
+# ====== INITIALIZE GEMINI ======
+def init_genai(api_key):
+    genai.configure(api_key=api_key)
+    return genai.GenerativeModel('gemini-2.5-flash')
+
+# ====== OCR TEXT EXTRACTION ======
+def extract_title_and_author(model, image_bytes):
+    prompt = (
+        "From this book cover image, extract ONLY the book's title and author.\n"
+        "Format your response exactly like this:\n\n"
+        "Title: <title>\nAuthor: <author>\n\n"
+        "Do not include any other information or explanation."
+    )
+
+    response = model.generate_content([
+        prompt,
+        {"mime_type": "image/png", "data": image_bytes}
+    ])
+    
+    return response.text.strip()
+
+
+def parse_title_author(response_text):
+    match = re.search(r"Title:\s*(.+?)\s*Author:\s*(.+)", response_text, re.IGNORECASE)
+    if match:
+        title = match.group(1).strip()
+        author = match.group(2).strip()
+        return title, author
+    return None, None
+
+# ====== GOOGLE BOOKS SEARCH ======
+
+def search_google_books(query, max_results=5):
+    url = "https://www.googleapis.com/books/v1/volumes"
+    params = {
+        "q": query,
+        "maxResults": max_results,
+        "key": os.getenv('key'),
+        "country": "US"
+    }
+    response = requests.get(url, params=params)
+    data = response.json()
+
+    if "items" not in data:
+        return []
+
+    results = []
+
+    for item in data["items"]:
+        volume_info = item.get("volumeInfo", {})
+        sale_info = item.get("saleInfo", {})
+
+        list_price_data = sale_info.get("listPrice", {})
+        retail_price_data = sale_info.get("retailPrice", {})
+
+        list_price = f"{list_price_data.get('amount')} {list_price_data.get('currencyCode')}" \
+            if list_price_data else "Unknown"
+
+        retail_price = f"{retail_price_data.get('amount')} {retail_price_data.get('currencyCode')}" \
+            if retail_price_data else "Unknown"
+
+        book_data = {
+            "title": volume_info.get("title", "N/A"),
+            "authors": volume_info.get("authors", ["N/A"]),
+            "publisher": volume_info.get("publisher", "N/A"),
+            "published_date": volume_info.get("publishedDate", "N/A"),
+            "description": volume_info.get("description", "No description."),
+            "rating": volume_info.get("averageRating", "No rating"),
+            "ratings_count": volume_info.get("ratingsCount", 0),
+            "page_count": volume_info.get("pageCount", "Unknown"),
+            "list_price": list_price,
+            "retail_price": retail_price,
+        }
+        results.append(book_data)
+
+    return results
+
+"""
+
+def search_google_books(query, max_results=5):
+    url = "https://www.googleapis.com/books/v1/volumes"
+    params = {
+        "q": "intitle:The Great Gatsby inauthor:F. Scott Fitzgerald",
+        "maxResults": 1,
+        "key": "AIzaSyAE3sGjvtHhtx3NvaylYfwH_bKcq_v0xhE",
+        "country": "US"
+    }
+    
+    resp = requests.get(url, params=params)
+    st.write(resp.status_code)
+    st.write(resp.json())
+    """
+    # ====== RECOMMENDATIONS ======
+def get_recommendations(model, book_title):
+    response = model.generate_content([
+        "Get 5 recommendations similar to this book title: " + book_title +" just list out the reccomendations don't add any extra explanation"
+    ])
+    return response.text
+
+# ====== SERIES CHECK ======
+def check_book_series(model, book_title):
+    prompt = (
+        "Tell me if this book title: " + book_title +
+        " is part of a book series. If so, tell me the other books in the series. " +
+        "Don't start with yes or no. Start by saying the number of books in the series first."
+    )
+    response = model.generate_content(prompt)
+    return response.text
+```
+
+### Recommendations Algorithm
+```python
+import pandas as pd
+import re
+from rapidfuzz import fuzz
+from sklearn.preprocessing import MultiLabelBinarizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+def clean_text(text):
+    # Remove punctuation, lower case, collapse whitespace
+    text = re.sub(r'[^\w\s]', '', text)  # Remove punctuation
+    text = text.lower()
+    text = re.sub(r'\s+', ' ', text)     # Collapse multiple spaces
+    return text.strip()
+
+def load_data():
+    """Load raw CSVs from URLs and return DataFrames."""
+    tags_url = "https://raw.githubusercontent.com/zygmuntz/goodbooks-10k/master/tags.csv"
+    book_tags_url = "https://raw.githubusercontent.com/zygmuntz/goodbooks-10k/master/book_tags.csv"
+    books_url = "https://raw.githubusercontent.com/zygmuntz/goodbooks-10k/master/books.csv"
+    
+    tags = pd.read_csv(tags_url)
+    book_tags = pd.read_csv(book_tags_url)
+    books = pd.read_csv(books_url)
+    
+    return books, book_tags, tags
+
+
+"""def prepare_book_tags_set(books, book_tags, tags):
+    book_tags_merged = pd.merge(book_tags, tags, on='tag_id')
+    book_tags_set = book_tags_merged.groupby('goodreads_book_id')['tag_name'].agg(set).reset_index()
+    books_subset = books[['goodreads_book_id', 'title', 'authors']]
+    book_tags_set = pd.merge(book_tags_set, books_subset, on='goodreads_book_id')
+    book_tags_set.rename(columns={'goodreads_book_id': 'book_id', 'tag_name': 'tags'}, inplace=True)
+    book_tags_set = book_tags_set[['book_id', 'title', 'authors', 'tags']]
+
+    # Add normalized versions for robust matching
+    book_tags_set['norm_title'] = book_tags_set['title'].apply(clean_text)
+    book_tags_set['norm_authors'] = book_tags_set['authors'].apply(clean_text)
+
+    return book_tags_set
+    print(book_tags_set.columns)"""
+
+def prepare_book_tags_set(books, book_tags, tags):
+    book_tags_merged = pd.merge(book_tags, tags, on='tag_id')
+    book_tags_set = book_tags_merged.groupby('goodreads_book_id')['tag_name'].agg(set).reset_index()
+    books_subset = books[['goodreads_book_id', 'title', 'authors']]
+    book_tags_set = pd.merge(book_tags_set, books_subset, on='goodreads_book_id')
+    book_tags_set.rename(columns={'goodreads_book_id': 'book_id', 'tag_name': 'tags'}, inplace=True)
+    book_tags_set = book_tags_set[['book_id', 'title', 'authors', 'tags']]
+
+    # Convert 'tags' column sets to frozensets for hashability
+    book_tags_set['tags'] = book_tags_set['tags'].apply(frozenset)
+
+    # Add normalized versions for robust matching
+    book_tags_set['norm_title'] = book_tags_set['title'].apply(clean_text)
+    book_tags_set['norm_authors'] = book_tags_set['authors'].apply(clean_text)
+
+    return book_tags_set
+
+
+
+def recommend_books(book_id, book_tags_df, top_n=5):
+    """
+    Recommend books based on tag overlap for a given book_id.
+    Returns top_n recommendations sorted by tag overlap.
+    """
+    df = book_tags_df.copy()
+
+    target_tags = df.loc[df['book_id'] == book_id, 'tags'].values
+    if len(target_tags) == 0:
+        print("Book ID not found.")
+        return None
+
+    target_tags = target_tags[0]
+
+    def tag_overlap(row):
+        return len(target_tags.intersection(row['tags']))
+
+    df['overlap'] = df.apply(tag_overlap, axis=1)
+    recommendations = df[df['book_id'] != book_id].sort_values(by='overlap', ascending=False).head(top_n)
+
+    return recommendations[['book_id', 'title', 'tags', 'overlap']]
+
+
+"""def recommend_books_by_title_author(title, author, book_tags_df, top_n=5):
+    title_clean = clean_text(title)
+    author_clean = clean_text(author)
+
+    matched_book = book_tags_df[
+        book_tags_df['norm_title'].str.contains(title_clean) & 
+        book_tags_df['norm_authors'].str.contains(author_clean)
+    ]
+    
+    if matched_book.empty:
+        print(f"No book found with title '{title}' and author '{author}'")
+        return None
+    
+    book_id = matched_book.iloc[0]['book_id']
+    target_title = matched_book.iloc[0]['title']
+    print(f"\nFound Book: '{target_title}' (ID: {book_id}) — generating recommendations...\n")
+    
+    return recommend_books(book_id, book_tags_df, top_n=top_n)
+"""
+
+def recommend_books_by_title_author(title, author, book_tags_df, top_n=5, threshold=70):
+    title_clean = clean_text(title)
+    author_clean = clean_text(author)
+
+    best_match_score = 0
+    best_match_idx = None
+
+    # Iterate through the dataset to find best fuzzy match
+    for idx, row in book_tags_df.iterrows():
+        dataset_title = clean_text(row['title'])
+        dataset_author = clean_text(row['authors'])
+
+        title_score = fuzz.token_sort_ratio(title_clean, dataset_title)
+        author_score = fuzz.token_sort_ratio(author_clean, dataset_author)
+
+        # Combine scores - you can tweak the logic here
+        combined_score = (title_score + author_score) / 2
+
+        if combined_score > best_match_score and combined_score >= threshold:
+            best_match_score = combined_score
+            best_match_idx = idx
+
+    if best_match_idx is None:
+        print(f"No book found with title '{title}' and author '{author}' (threshold={threshold})")
+        return None
+
+    matched_book = book_tags_df.iloc[best_match_idx]
+    book_id = matched_book['book_id']
+    target_title = matched_book['title']
+    print(f"\nFound Book: '{target_title}' (ID: {book_id}) — generating recommendations...\n")
+
+    return recommend_books(book_id, book_tags_df, top_n=top_n)
+
+
+def recommend_books_cosine(title, author, book_tags_df, similarity_matrix, top_n=5):
+    title_clean = clean_text(title)
+    author_clean = clean_text(author)
+
+    matched = book_tags_df[
+        book_tags_df['norm_title'].str.contains(title_clean) &
+        book_tags_df['norm_authors'].str.contains(author_clean)
+    ]
+
+    if matched.empty:
+        print(f"No match found for '{title}' by '{author}'.")
+        return None
+
+    target_idx = matched.index[0]
+    similarities = similarity_matrix[target_idx]
+
+    similar_indices = similarities.argsort()[::-1]
+    similar_indices = [i for i in similar_indices if i != target_idx][:top_n]
+
+    recommendations = book_tags_df.iloc[similar_indices][['title', 'authors']].copy()
+    recommendations['similarity'] = similarities[similar_indices]
+
+    print(f"\nFound Book: '{book_tags_df.loc[target_idx, 'title']}' — generating cosine-based recommendations...\n")
+    return recommendations.reset_index(drop=True)
+```
+
+### Setting up base colors and fonts
+```toml
+[theme]
+base="light"
+primaryColor="#D3B8AE"
+backgroundColor="#F7F2EF"
+secondaryBackgroundColor="#EFEBE8" 
+textColor="#4A4A4A"
+font="sans serif"
+```
+
+### More Styling
+```css
+/* --- Button Styling --- */
+.stButton>button {
+    font-size: 1.1em;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
+    color: #333333;
+    background-color: #D3B8AE;                          
+    border: none;            
+    border-radius: 8px;      
+    padding: 10px 20px;      
+}
+.stButton>button:hover {
+    background-color: #B4978D; /* <-- Slightly darker background on hover */
+    cursor: pointer;
+}
+```
+
 
 # Bill of Materials
 
