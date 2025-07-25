@@ -1,5 +1,5 @@
 # Book Detector
-A website that allows the user to take a picture of a book, and get all the details and 5 reccomendations based on the book. Using a gemini api, google books api, and recommendations algorithm, it provides multiple useful features. I hope to add more in the future.
+I originally started this project with smart glasses, but during development, I transitioned to creating a website that detects books. The site allows users to take a picture of a book and receive information along with five recommendations. It integrates the Gemini API, Google Books API, and a custom recommendation algorithm to deliver a range of useful features. I plan to add even more functionality in the future.
 
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
 |:--:|:--:|:--:|:--:|
