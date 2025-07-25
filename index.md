@@ -242,10 +242,10 @@ So I decided that I want to focus on detecting books (getting the title and auth
 
 I started by downloading OCR.
 I was only able to detect “Hello” from my iPhone screen properly. Then I started using OpenCV to add filters — helping OCR to isolate words and detect them.
-##### Figure 6+5: A picture taken from my pi camera and The same picture with more filters
+##### Figure 7+8: A picture taken from my pi camera and The same picture with more filters
 <img src="original.png" style="width:30%; height:30%;">       <img src="filtered.png" style="width:30%; height:30%;">
 
-##### Figure 4: The detected words from the filtered picture
+##### Figure 6: The detected words from the filtered picture
 <img src="terminalOcr.png" style="width:50%; height:50%;">
 
 Next, I needed to separate author and book title, so I used NER (Named Entity Recognition), which is a part of NLP (Natural Language Processing).
@@ -270,6 +270,8 @@ At this point, I just wanted to test if my setup worked without my Pi cam.
 So I took pictures from Google of book covers and ran my code, trying to detect the author with a person entity and the book title with heuristics (guessing/good enough).
 I was using filters again, but the problem this time is that some book covers aren’t clean enough and the words get blocked out — due to one section being darker and then when comparing the sections, it blocks out the words instead of the background.
 So I started just using the inside pages of books with the title and author on a blank page, and it was able to separate the author and title for one picture perfectly.
+##### Figure 4+5: The inside page of <u>The Great Gatsby</u> and the detected title and author
+<img src="greatgatsby.png" style="width:50%; height:50%;"> <img src="insidebookcoveroutput.png" style="width:50%; height:50%;">
 
 So now my next steps are to clean up the detection for the author because the person detection isn’t always working, and then adjust filters until I’m able to use the book cover reliably.
 
