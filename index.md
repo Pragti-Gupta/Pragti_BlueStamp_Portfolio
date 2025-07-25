@@ -240,16 +240,13 @@ After getting object detection set up, I realized that it is really, really bad 
 So I decided that I want to focus on detecting books (getting the title and author), then getting information about it and outputting it in audio form to the user.
 
 I started by downloading OCR.
-I was only able to detect “Hello” from my iPhone screen properly. 
-##### Figure 6: A picture taken from my pi camera             Figure 5: The same picture with more filters
+I was only able to detect “Hello” from my iPhone screen properly. Then I started using OpenCV to add filters — helping OCR to isolate words and detect them.
+##### Figure 6+5: A picture taken from my pi camera and The same picture with more filters
 <img src="original.png" style="width:30%; height:30%;">       <img src="filtered.png" style="width:30%; height:30%;">
 
-
-
 ##### Figure 4: The detected words from the filtered picture
-<img src="terminalOcr.png" style="width:30%; height:30%;">
+<img src="terminalOcr.png" style="width:50%; height:50%;">
 
-Then I started using OpenCV to add filters — helping OCR to isolate words and detect them.
 Next, I needed to separate author and book title, so I used NER (Named Entity Recognition), which is a part of NLP (Natural Language Processing).
 
 “Named Entity Recognition (NER) in NLP focuses on identifying and categorizing important information known as entities in text.”
