@@ -241,11 +241,10 @@ So I decided that I want to focus on detecting books (getting the title and auth
 
 I started by downloading OCR.
 I was only able to detect “Hello” from my iPhone screen properly. 
-##### Figure 6: A picture taken from my pi camera
-<img src="original.png" style="width:30%; height:30%;">
+##### Figure 6: A picture taken from my pi camera             Figure 5: The same picture with more filters
+<img src="original.png" style="width:30%; height:30%;">       <img src="filtered.png" style="width:30%; height:30%;">
 
-##### Figure 5: The same picture with more filters
-<img src="filtered.png" style="width:30%; height:30%;">
+
 
 ##### Figure 4: The detected words from the filtered picture
 <img src="terminalOcr.png" style="width:30%; height:30%;">
