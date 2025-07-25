@@ -1,5 +1,5 @@
-# Smart Glasses
-The smart glasses help you recognize the objects around you in the world. Using rapberry pi and a picam, I am able to detect objects using tensor flow, which also has a speech output. So, whenever an object is put in front of it, it is able to detect the object and say the name of the object detected outloud.<!-- need to add more-->
+# Book Detector
+A website that allows the user to take a picture of a book, and get all the details and 5 reccomendations based on the book. Using a gemini api, google books api, and recommendations algorithm, it provides multiple useful features. I hope to add more in the future.
 
 | **Engineer** | **School** | **Area of Interest** | **Grade** |
 |:--:|:--:|:--:|:--:|
@@ -348,8 +348,8 @@ void loop() {
 | **Part** | **Note** | **Price** | **Link** |
 |:--:|:--:|:--:|:--:|
 | ~~Raspberry Pi~~ | Orginally used to control camera and locally run website | $109.99 | <a href="https://www.amazon.com/CanaKit-Raspberry-Pi-Starter-Kit/dp/B07V2B4W63/ref=sr_1_3?crid=1U2VL7PDY8UZ2&dib=eyJ2IjoiMSJ9.qObSl_jh-ZRJhliCkwUhOPr8NIXbnDGITPdCBNoR4Gggy77uvsQ5-O7U-FAdlCkJ8SLq1NrlL_2tTe5QXNWGSagnkKhLC2zkHoFu7QcWic1EKo1pZAjsfsaZUkJoi4nLYuD7F__BPZtV-6ahzxmNR7wxmT65MfTeIDqjhDgUkAT7u-XR3vBlAoDKVlv0VBjtjY1BYvqCTFEtB1xkdcFyO8UvqKPJcfFW9SJEHvU_2NM.r43O5eQ2tfmus7eWx4w9ufzFhKV_Sm6B5KEf6doTBlE&dib_tag=se&keywords=canakit%2Braspberry%2Bpi%2B4%2Bstarter%2Bkit%2B32gb%2Bevo%2B&qid=1753459025&sprefix=canakit%2Braspberry%2Bpi%2B4%2B32gb%2Caps%2C384&sr=8-3&th=1"> Link </a> |
-| Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
-| Item Name | What the item is used for | $Price | <a href="https://www.amazon.com/Arduino-A000066-ARDUINO-UNO-R3/dp/B008GRTSV6/"> Link </a> |
+| ~~Arducam with autofocus~~ | Orginally used to take pictures and videos for object detection | $25.00 | <a href="https://www.amazon.com/Arducam-Raspberry-Camera-Autofocus-15-22pin/dp/B0C9PYCV9S/ref=sr_1_1?dib=eyJ2IjoiMSJ9.EfDqm-I9V5Ti8yWG2pW_lGEyzg-IbAPQhF3v_7U6tn-I6_0Yj6DRENt03mbM-Vy7rt10z2P8iGUq0Phxxj2EWaxwtLleouZPyhi9vOt22n79OAV-ze-EWqumYJxlQ5vydK6VxaQZjRMh8frCETdYHOmQNOOwJ_IeqW-4ndlS5XnveMWsJ4MVaKxsLoqxAPTswDoVZJP-_Nckn8YACoZW477qjU4vRvI3eLoQ79tatcw.YDKJlEIJkWWbovdce9fx3MSUZGHs4X6HuyoU9DfeIo0&dib_tag=se&keywords=Raspberry+Pi+Camera+Module+3&qid=1751047927&sr=8-1"> Link </a> |
+| ~~Key Board~~ | Typing in Raspberry Pi | $16.16 | <a href="https://www.amazon.com/AmazonBasics-Wired-Computer-Keyboard-10-Pack/dp/B00B7GV802/ref=sr_1_1_ffob_sspa?crid=28D2B1EG3B8R5&dib=eyJ2IjoiMSJ9.4JNDYIpbkFFA7va6FsTR3qZDodVli3ndhCgpQVKnePI-mYxgTFaj87-ZfkqwP5LY9bzCog9mzQfBb02UYODx6YhHLvYRz9iHIv38NZXfuL8m7EzTubp2Qe01ZW47NruIsv8Wn7AUbXD59kFSxfG2IwOX-FiOTkpXzx2owLLCSWxTdl8dnWgu3KghJZSRtZV-XUZYpk5DxXP5cyrvqGVTajj1ZCfGmLtNWoIlMjq-WH4.34cudBwwIIXrCaCTdMZaGQB0IxVe5Ic_GNtOVKo0iSo&dib_tag=se&keywords=amazon%2Bbasics%2Bkeyboard%2Band%2Bmouse&qid=1753460230&sprefix=amazon%2Bbasics%2Bkeyboard%2B%2Caps%2C368&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1"> Link </a> |
 
 # Starter Project: Jitterbug 
 
