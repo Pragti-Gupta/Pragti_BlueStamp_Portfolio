@@ -154,6 +154,8 @@ Then I deployed my website on streamlit cloud, which allows me to deploy my webs
 
 ## Challenges
 
+
+
 ## Next Steps
 
 
@@ -282,8 +284,6 @@ So I started just using the inside pages of books with the title and author on a
 
 So now my next steps are to clean up the detection for the author because the person detection isn’t always working, and then adjust filters until I’m able to use the book cover reliably.
 
-## Challenges
-## Next Steps
 
 # First Milestone
 
@@ -334,15 +334,11 @@ cv2.imwrite('file.png', im)
 
 
 ## Challenges
-Checked wifi connection with pinging the raspberry pi 
-The host name wasn’t working so had to use the ip address
-Basically just checks if the raspberry pi is there
-
-ssh wasn't working due to network issues had to depend on Obs which 
-So capture takes html video signals to usb signals so i can use my computer instead of a monitor then obs switches it back to hdmi signals and converts it to video we can see
+I checked the Wi-Fi connection by pinging the Raspberry Pi. The hostname wasn’t working, so I had to use the IP address instead. SSH wasn’t working due to network issues, so I had to depend on OBS for access. The video capture card takes the HDMI output from the Pi and converts it into USB video signals, allowing me to use my computer as a monitor. Then, OBS switches it back to HDMI signals and converts it to a video format that I can see. This setup helped me avoid needing a separate monitor connected to the Pi.
 
 
 ## Next Steps
+Set up object detection, and figure out my modifications. I want to cad an attachment, so the camera can connect to the glasses. Order a better camera or try to find filters to improve photo quality. 
 
 <!--# Schematics 
 Here's where you'll put images of your schematics. [Tinkercad](https://www.tinkercad.com/blog/official-guide-to-tinkercad-circuits) and [Fritzing](https://fritzing.org/learning/) are both great resoruces to create professional schematic diagrams, though BSE recommends Tinkercad becuase it can be done easily and for free in the browser. -->
